@@ -4,7 +4,10 @@ local api = vim.api
 local path = require("plenary.path")
 
 function M.get_relative_path(cwd)
-  return path:new(api.nvim_buf_get_name(0)):make_relative(cwd)
+  local cur_buf_rel = path:new(api.nvim_buf_get_name(0))
+  local cur_buf_abs = path:new(cur_buf_rel:absolute())
+  local cwd_abs = path:new(cwd):absolute()
+  return cur_buf_abs:make_relative(cwd_abs)
 end
 
 function M.get_curr_line()
